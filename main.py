@@ -1,50 +1,121 @@
+from src.analytics.analytics_engine import AnalyticsEngine
 from src.core.business_state import BusinessState
 from src.core.excel_engine import ExcelEngine
-from src.core.audit_engine import AuditEngine
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+DATASET_PATH = "datasets/superstore.csv"
+SEPARATOR = "=" * 60
 
-def main():
+
+def main() -> None:
+    """
+    Entry point for ProfitPilot.
+    """
 
     logger.info("ProfitPilot started.")
 
     try:
+        # -------------------------------------------------------------- #
+        # Initialize Business State
+        # -------------------------------------------------------------- #
 
         state = BusinessState()
 
+        # -------------------------------------------------------------- #
+        # Load Dataset
+        # -------------------------------------------------------------- #
+
         engine = ExcelEngine()
+        engine.load_file(DATASET_PATH)
 
-        file_path = "datasets/superstore.csv"
+        # -------------------------------------------------------------- #
+        # Run Business Analytics
+        # -------------------------------------------------------------- #
 
-        engine.load_file(file_path)
+        analytics_engine = AnalyticsEngine()
 
-        audit_engine = AuditEngine()
+        analytics_report = analytics_engine.analyze(
+            engine.dataframe
+        )
 
-        audit_report = audit_engine.audit(engine.dataframe)
+        # -------------------------------------------------------------- #
+        # Store Everything
+        # -------------------------------------------------------------- #
 
         state.set_dataset(
             dataframe=engine.dataframe,
             schema=engine.schema,
-            audit_report=audit_report,
+            audit_report=engine.audit_report,
+            analytics_report=analytics_report,
         )
 
-        print("=" * 60)
+        # -------------------------------------------------------------- #
+        # Display Summary
+        # -------------------------------------------------------------- #
+
+        print(SEPARATOR)
         print("ProfitPilot")
-        print("=" * 60)
+        print(SEPARATOR)
 
         print(f"Dataset : {engine.file_path.name}")
-        print(f"Rows     : {state.schema['row_count']}")
-        print(f"Columns  : {state.schema['column_count']}")
+        print(f"Rows    : {state.schema['row_count']}")
+        print(f"Columns : {state.schema['column_count']}")
+
+        # -------------------------------------------------------------- #
+        # Dataset Summary
+        # -------------------------------------------------------------- #
 
         summary = state.audit_report["dataset_summary"]
 
         print("\nDataset Summary")
         print("-" * 40)
+
         print(f"Rows       : {summary['rows']}")
         print(f"Columns    : {summary['columns']}")
         print(f"Memory(MB) : {summary['memory_mb']}")
+
+        # -------------------------------------------------------------- #
+        # Overview KPIs
+        # -------------------------------------------------------------- #
+
+        overview = state.analytics_report["overview"]
+
+        print("\nOverview KPIs")
+        print("-" * 40)
+
+        print(
+            f"Total Revenue        : {overview['sales']['total_revenue']}"
+        )
+
+        print(
+            f"Total Profit         : {overview['profit']['total_profit']}"
+        )
+
+        print(
+            f"Profit Margin (%)    : {overview['profit']['profit_margin']}"
+        )
+
+        print(
+            f"Total Orders         : {overview['orders']['total_orders']}"
+        )
+
+        print(
+            f"Total Customers      : {overview['customers']['total_customers']}"
+        )
+
+        print(
+            f"Total Products       : {overview['products']['total_products']}"
+        )
+
+        print(
+            f"Average Order Value  : {overview['sales']['average_order_value']}"
+        )
+
+        print(
+            f"Average Discount     : {overview['discount']['average_discount']}"
+        )
 
         logger.info("ProfitPilot completed successfully.")
 

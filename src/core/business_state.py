@@ -26,6 +26,8 @@ class BusinessState:
         self.dataframe: pd.DataFrame | None = None
         self.schema: dict | None = None
         self.audit_report: dict | None = None
+        self.analytics_report: dict | None = None
+        self.dataset_loaded: bool = False
 
         # User Input
         self.user_query: str = ""
@@ -54,7 +56,8 @@ class BusinessState:
         self,
         dataframe: pd.DataFrame,
         schema: dict,
-        audit_report: dict
+        audit_report: dict,
+        analytics_report,
     ) -> None:
         """
         Store dataset and its metadata.
@@ -63,6 +66,8 @@ class BusinessState:
         self.dataframe = dataframe
         self.schema = schema
         self.audit_report = audit_report
+        self.analytics_report = analytics_report
+        self.dataset_loaded = True
 
     # ------------------------------------------------------------------ #
 
