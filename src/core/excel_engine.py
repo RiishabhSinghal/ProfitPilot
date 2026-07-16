@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from src.core.audit_engine import AuditEngine
 from pathlib import Path
 
 import pandas as pd
@@ -32,6 +32,7 @@ class ExcelEngine:
         self.file_path: Path | None = None
         self.dataframe: pd.DataFrame | None = None
         self.schema: dict | None = None
+        self.audit_report: dict | None = None
 
         self.logger = get_logger(__name__)
 
@@ -54,6 +55,8 @@ class ExcelEngine:
         self._validate_file()
         self._read_file()
         self._extract_schema()
+        audit_engine = AuditEngine()
+        self.audit_report = audit_engine.audit(self.dataframe)
 
         self.logger.info("Dataset loaded successfully.")
 

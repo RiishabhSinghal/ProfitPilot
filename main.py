@@ -117,6 +117,45 @@ def main() -> None:
             f"Average Discount     : {overview['discount']['average_discount']}"
         )
 
+        
+
+        profit = state.analytics_report["profit"]
+
+        print("\nProfit Analysis")
+        print("-" * 40)
+
+        print("Profit by Region")
+        print(profit["profit_by_region"])
+
+        print("\nTop Profitable Products")
+        print(profit["top_profitable_products"])
+
+        print("\nLoss Making Products")
+        print(profit["loss_making_products"])
+
+        print("\nProfit Contribution")
+        print(profit["profit_contribution"])
+
+        sales = state.analytics_report["sales"]
+
+        print("\nSales Analysis")
+        print("-" * 40)
+
+        print("Revenue by Region")
+        print(sales["revenue_by_region"])
+
+        print("\nRevenue by Category")
+        print(sales["revenue_by_category"])
+
+        print("\nTop Customers")
+        print(sales["top_customers"])
+
+        print("\nTop Products")
+        print(sales["top_products"])
+
+        print("\nTop Revenue Sub-categories")
+        print(sales["revenue_by_subcategory"])
+
         logger.info("ProfitPilot completed successfully.")
 
     except Exception:
