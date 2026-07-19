@@ -156,6 +156,131 @@ def main() -> None:
         print("\nTop Revenue Sub-categories")
         print(sales["revenue_by_subcategory"])
 
+        # -------------------------------------------------------------- #
+        # Customer Analysis
+        # -------------------------------------------------------------- #
+
+        customer = state.analytics_report["customer"]
+
+        print("\nCustomer Analysis")
+        print("-" * 40)
+
+        print("Revenue by Customer")
+        print(customer["revenue_by_customer"])
+
+        print("\nProfit by Customer")
+        print(customer["profit_by_customer"])
+
+        print("\nTop Customers by Revenue")
+        print(customer["top_customers_by_revenue"])
+
+        print("\nTop Customers by Profit")
+        print(customer["top_customers_by_profit"])
+
+        print("\nCustomers with Most Orders")
+        print(customer["customers_with_most_orders"])
+
+        print("\nAverage Spend per Customer")
+        print(customer["average_spend_per_customer"])
+
+        print("\nCustomer Contribution (%)")
+        print(customer["customer_contribution"])
+
+        # -------------------------------------------------------------- #
+        # Product Analysis
+        # -------------------------------------------------------------- #
+
+        product = state.analytics_report["product"]
+
+        print("\nProduct Analysis")
+        print("-" * 40)
+
+        print("Revenue by Product")
+        print(product["revenue_by_product"])
+
+        print("\nProfit by Product")
+        print(product["profit_by_product"])
+
+        print("\nTop Products by Revenue")
+        print(product["top_products_by_revenue"])
+
+        print("\nTop Products by Profit")
+        print(product["top_products_by_profit"])
+
+        print("\nProduct Contribution (%)")
+        print(product["product_contribution"])
+
+        # -------------------------------------------------------------- #
+        # Region Analysis
+        # -------------------------------------------------------------- #
+
+        region = state.analytics_report["region"]
+
+        print("\nRegion Analysis")
+        print("-" * 40)
+
+        print("Revenue by Region")
+        print(region["revenue_by_region"])
+
+        print("\nProfit by Region")
+        print(region["profit_by_region"])
+
+        print("\nOrders by Region")
+        print(region["orders_by_region"])
+
+        print("\nCustomers by Region")
+        print(region["customers_by_region"])
+
+        print("\nProfit Margin by Region")
+        print(region["profit_margin_by_region"])
+
+        print("\nRegion Contribution (%)")
+        print(region["region_contribution"])
+
+        # -------------------------------------------------------------- #
+        # Time Analysis
+        # -------------------------------------------------------------- #
+
+        time = state.analytics_report["time"]
+
+        print("\nTime Analysis")
+        print("-" * 40)
+
+        print("Monthly Sales")
+        print(time["monthly_sales"])
+
+        print("\nMonthly Profit")
+        print(time["monthly_profit"])
+
+        print("\nYearly Sales")
+        print(time["yearly_sales"])
+
+        print("\nYearly Profit")
+        print(time["yearly_profit"])
+
+        print("\nMonthly Orders")
+        print(time["monthly_orders"])
+
+        discount = state.analytics_report["discount"]
+
+        print("\nDiscount Analysis")
+        print("-" * 40)
+
+        print("Average Discount by Category")
+        print(discount["average_discount_by_category"])
+
+        print("\nAverage Discount by Region")
+        print(discount["average_discount_by_region"])
+
+        print("\nAverage Discount by Segment")
+        print(discount["average_discount_by_segment"])
+
+        print("\nMost Discounted Products")
+        print(discount["most_discounted_products"])
+
+        print("\nDiscount vs Profit")
+        print(discount["discount_vs_profit"])
+
         logger.info("ProfitPilot completed successfully.")
 
     except Exception:
