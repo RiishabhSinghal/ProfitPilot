@@ -2,6 +2,7 @@ from src.analytics.analytics_engine import AnalyticsEngine
 from src.core.business_state import BusinessState
 from src.core.excel_engine import ExcelEngine
 from src.utils.logger import get_logger
+from src.visualization.chart_engine import ChartEngine
 
 logger = get_logger(__name__)
 
@@ -35,6 +36,7 @@ def main() -> None:
         # -------------------------------------------------------------- #
 
         analytics_engine = AnalyticsEngine()
+        chart_engine = ChartEngine()
 
         analytics_report = analytics_engine.analyze(
             engine.dataframe
@@ -50,6 +52,12 @@ def main() -> None:
             audit_report=engine.audit_report,
             analytics_report=analytics_report,
         )
+
+        # -------------------------------------------------------------- #
+        # Generate Default Charts
+        # -------------------------------------------------------------- #
+
+        chart_engine.generate_default_charts(state)
 
         # -------------------------------------------------------------- #
         # Display Summary
@@ -280,6 +288,12 @@ def main() -> None:
 
         print("\nDiscount vs Profit")
         print(discount["discount_vs_profit"])
+
+        print("\nGenerated Charts")
+        print("-" * 40)
+
+        for name, path in state.charts.items():
+            print(f"{name:<30} {path}")
 
         logger.info("ProfitPilot completed successfully.")
 

@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+from src.core.business_state import BusinessState
 from pathlib import Path
 
 import plotly.express as px
@@ -16,11 +16,18 @@ class ChartEngine:
     It does NOT perform analytics.
     """
 
+    SALES_FOLDER = "sales"
+    REGION_FOLDER = "region"
+    TIME_FOLDER = "time"
+    
     def __init__(self) -> None:
         self.logger = get_logger(__name__)
 
         self.output_dir = Path("charts")
-        self.output_dir.mkdir(exist_ok=True)
+        self.output_dir.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
 
         self.logger.info("ChartEngine initialized.")
 
@@ -43,6 +50,27 @@ class ChartEngine:
 
         figure.update_xaxes(
             tickangle=-45
+        )
+
+    def generate_default_charts(
+        self,
+        state,
+    ) -> None:
+        """
+        Generate the default set of charts
+        for the current business analysis.
+        """
+
+        self.logger.info(
+            "Generating default charts..."
+        )
+
+        self.generate_sales_charts(state)
+        self.generate_region_charts(state)
+        self.generate_time_charts(state)
+
+        self.logger.info(
+            "Default charts generated successfully."
         )
 
     # ------------------------------------------------------------------ #
@@ -224,4 +252,88 @@ class ChartEngine:
             figure=figure,
             folder=folder,
             filename=filename,
+        )
+
+    def generate_sales_charts(
+        self,
+        state,
+    ) -> None:
+        """
+        Generate charts related to sales analysis.
+        """
+
+        sales = state.analytics_report["sales"]
+
+        path = self.create_bar_chart(
+            data=sales["revenue_by_region"],
+            title="Revenue by Region",
+            x_label="Region",
+            y_label="Revenue",
+            folder=self.SALES_FOLDER,
+            filename="revenue_by_region.html",
+        )
+
+        state.add_chart(
+            "revenue_by_region",
+            path,
+        )
+
+    def generate_region_charts(
+        self,
+        state,
+    ) -> None:
+        """
+        Generate charts related to region analysis.
+        """
+
+        region = state.analytics_report["region"]
+
+        path = self.create_bar_chart(
+            data=region["profit_by_region"],
+            title="Profit by Region",
+            x_label="Region",
+            y_label="Profit",
+            folder=self.REGION_FOLDER,
+            filename="profit_by_region.html",
+        )
+
+        state.add_chart(
+            "profit_by_region",
+            path,
+        )
+
+        path = self.create_pie_chart(
+            data=region["region_contribution"],
+            title="Regional Revenue Contribution",
+            folder=self.REGION_FOLDER,
+            filename="region_contribution.html",
+        )
+
+        state.add_chart(
+            "region_contribution",
+            path,
+        )
+
+    def generate_time_charts(
+        self,
+        state,
+    ) -> None:
+        """
+        Generate charts related to time-series analysis.
+        """
+
+        time = state.analytics_report["time"]
+
+        path = self.create_line_chart(
+            data=time["monthly_sales"],
+            title="Monthly Sales Trend",
+            x_label="Month",
+            y_label="Sales",
+            folder=self.TIME_FOLDER,
+            filename="monthly_sales.html",
+        )
+
+        state.add_chart(
+            "monthly_sales",
+            path,
         )

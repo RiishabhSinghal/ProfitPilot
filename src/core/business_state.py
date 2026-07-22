@@ -36,7 +36,7 @@ class BusinessState:
         self.agent_outputs: dict = {}
 
         # Visualizations
-        self.charts: list = []
+        self.charts: dict = {}
 
         # Final Report
         self.final_report: str = ""
@@ -93,12 +93,16 @@ class BusinessState:
 
     # ------------------------------------------------------------------ #
 
-    def add_chart(self, chart) -> None:
+    def add_chart(
+        self,
+        chart_name: str,
+        chart_path: str,
+    ) -> None:
         """
-        Store generated visualizations.
+        Store a generated chart.
         """
 
-        self.charts.append(chart)
+        self.charts[chart_name] = chart_path
 
     # ------------------------------------------------------------------ #
 
